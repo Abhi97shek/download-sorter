@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  /* File-type groups: media, documents, everything else */
+  --color-grp-media: var(--grp-media);
+  --color-grp-docs: var(--grp-docs);
+  --color-grp-misc: var(--grp-misc);
+  --color-ok: var(--ok);
+  --font-sans: "Google Sans Flex", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Google Sans Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* A warm neutral and one dark accent carry the page. */
+:root {
+  --background: #f8f4ee;
+  --foreground: #1a0e08;
+  --muted-foreground: rgb(26 14 8 / 0.68);
+  --surface: #fffcf7;
+  --surface-raised: #ffffff;
+  --line: rgb(26 14 8 / 0.12);
+  --line-strong: rgb(26 14 8 / 0.28);
+  --accent: #c2410c;
+  --primary: #1a0e08;
+  --primary-foreground: #fff6ef;
+  --grp-media: #c2410c;
+  --grp-docs: #0f766e;
+  --grp-misc: #a16207;
+  --ok: #15803d;
+  color-scheme: light;
+}
+
+/* Dark bands (hero, the popup section, the close): the same tokens, flipped */
+.on-dark {
+  --background: #1a0e08;
+  --foreground: #fff6ef;
+  --muted-foreground: rgb(255 240 228 / 0.78);
+  --surface: rgb(255 246 239 / 0.06);
+  --surface-raised: rgb(255 246 239 / 0.1);
+  --line: rgb(255 240 228 / 0.16);
+  --line-strong: rgb(255 240 228 / 0.34);
+  --accent: #ff9a62;
+  --primary: #fff6ef;
+  --primary-foreground: #1a0e08;
+  --grp-media: #ff9a62;
+  --grp-docs: #5eead4;
+  --grp-misc: #fcd34d;
+  --ok: #6ee7a0;
+  color: var(--foreground);
+  letter-spacing: 0.006em; /* light text on dark wants a touch more air */
+}
+/* A light object (a macOS window) sitting inside a dark band */
+.on-light {
+  --background: #f8f4ee;
+  --foreground: #1a0e08;
+  --muted-foreground: rgb(26 14 8 / 0.68);
+  --surface: #fffcf7;
+  --surface-raised: #ffffff;
+  --line: rgb(26 14 8 / 0.12);
+  --line-strong: rgb(26 14 8 / 0.28);
+  --accent: #c2410c;
+  --primary: #1a0e08;
+  --primary-foreground: #fff6ef;
+  color: var(--foreground);
+  letter-spacing: normal;
+}
+
+/* The hero's ground: dark where the headline sits, warming to cream where the product sits */
+.hero-ground {
+  background: linear-gradient(
+    180deg,
+    #1a0e08 0%,
+    #3a190c 30%,
+    #6e2a10 54%,
+    #b04818 70%,
+    #ea9560 82%,
+    #f6cfae 91%,
+    #f8f4ee 100%
+  );
+}
+
+/* Soft film grain over the dark bands; content sits above it */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("/grain.png");
+  background-size: 160px 160px;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+}
+
+/* Where the file grid shows: clear behind the centred text, fading out before the page turns cream */
+.field-hero {
+  -webkit-mask-image: radial-gradient(ellipse 40% 30% at 50% 27%, transparent 0 50%, #000 100%), linear-gradient(to bottom, #000 0 56%, transparent 78%);
+  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(ellipse 40% 30% at 50% 27%, transparent 0 50%, #000 100%), linear-gradient(to bottom, #000 0 56%, transparent 78%);
+  mask-composite: intersect;
+}
+.field-close {
+  -webkit-mask-image: radial-gradient(ellipse 42% 46% at 50% 42%, transparent 0 58%, #000 100%), linear-gradient(to bottom, #000 0 70%, transparent 86%);
+  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(ellipse 42% 46% at 50% 42%, transparent 0 58%, #000 100%), linear-gradient(to bottom, #000 0 70%, transparent 86%);
+  mask-composite: intersect;
+}
+
+/* Questions: only the highlight and the preview move; the rest of the page stays put */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; }
+::view-transition-group(faq-sel) {
+  animation-duration: 0.38s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(faq-card) { animation: 0.16s cubic-bezier(0.4, 0, 1, 1) both ql-out; }
+::view-transition-new(faq-card) { animation: 0.44s cubic-bezier(0.16, 1, 0.3, 1) both ql-in; }
+@keyframes ql-out { to { opacity: 0; transform: translateY(-6px) scale(0.99); } }
+@keyframes ql-in { from { opacity: 0; transform: translateX(-14px) scale(0.98); } }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px; /* keep anchor targets clear of the floating nav */
+  scrollbar-color: rgb(26 14 8 / 0.3) var(--background);
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  caret-color: var(--accent);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer base {
+  /* Type scale, one role per size: 12 caption · 14 small · 16 body · 18 lede · 20 / 24 titles · 40-84 display */
+  h1, h2, h3 { text-wrap: balance; font-weight: 600; }
+  p, li, dd { text-wrap: pretty; }
+  /* Emphasis in headlines is colour, not italics */
+  em { font-style: normal; color: var(--accent); }
+  code { font-family: var(--font-mono); }
+}
+
+::selection {
+  background: rgb(194 65 12 / 0.28);
+  color: inherit;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #f8f4ee; }
+::-webkit-scrollbar-thumb {
+  background: rgb(26 14 8 / 0.25);
+  border: 3px solid #f8f4ee;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgb(26 14 8 / 0.4); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+a { text-underline-offset: 0.2em; }
+
+/* Touch: no double-tap-zoom delay, and a tap highlight that belongs to the palette */
+a, button, summary, [role="tab"] { touch-action: manipulation; }
+html { -webkit-tap-highlight-color: rgb(194 65 12 / 0.16); }
+
+/* Side gutters, never narrower than a notch's safe area */
+.pad-x {
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
