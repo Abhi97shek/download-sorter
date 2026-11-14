@@ -1,7 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { isPaused, onPauseChange } from "@/lib/motion-pause";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -93,19 +92,15 @@ export function initAnimations(scope: HTMLElement): () => void {
       });
     }
 
-    // ---- The popup's drift runs only while it is on screen, and never when the visitor has paused motion ----
-    const offPauseListeners: (() => void)[] = [];
+    // ---- The popup's drift runs only while it is on screen ----
     gsap.utils.toArray<HTMLElement>(q("[data-float]")).forEach((el) => {
       const drift = gsap.to(el, { y: -10, duration: 2.4, yoyo: true, repeat: -1, ease: "sine.inOut", paused: true });
-      let onScreen = false;
-      const sync = () => drift.paused(!onScreen || isPaused());
       ScrollTrigger.create({
         trigger: el,
         start: "top bottom",
         end: "bottom top",
-        onToggle: (self) => { onScreen = self.isActive; sync(); },
+        onToggle: (self) => drift.paused(!self.isActive),
       });
-      offPauseListeners.push(onPauseChange(sync));
     });
 
     // ---- The authored moment: the new-file-type popup plays out as you reach it ----
@@ -143,7 +138,6 @@ export function initAnimations(scope: HTMLElement): () => void {
     return () => {
       details.forEach((d) => d.removeEventListener("toggle", onToggle));
       window.removeEventListener("load", refresh);
-      offPauseListeners.forEach((off) => off());
     };
   });
 

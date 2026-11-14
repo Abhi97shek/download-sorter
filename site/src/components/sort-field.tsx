@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { isPaused, onPauseChange } from "@/lib/motion-pause";
 
 /**
  * The hero’s ground: a file grid where tiles in the three folder colours start
@@ -38,8 +37,6 @@ export function SortField({ mode = "live", className = "", style }: { mode?: "li
     let gridLayer: HTMLCanvasElement | null = null;
     let raf = 0, start = performance.now(), lastCycle = -1;
     let visible = true;
-    let userPaused = isPaused();
-    let pausedAt = 0;
     let rect = canvas.getBoundingClientRect(); // cached: read on resize and scroll, not on every pointer move
     let rectStale = false;
     const pointer = { x: -9999, y: -9999 };
@@ -112,7 +109,7 @@ export function SortField({ mode = "live", className = "", style }: { mode?: "li
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || userPaused) return;
+      if (!visible) return;
       const elapsed = now - start, cycle = Math.floor(elapsed / CYCLE), t = elapsed % CYCLE;
       if (cycle !== lastCycle) {
         // New loop: the mess starts from wherever the last unsort left the tiles
@@ -148,7 +145,7 @@ export function SortField({ mode = "live", className = "", style }: { mode?: "li
       draw();
       raf = requestAnimationFrame(frame);
     };
-    const play = () => { if (!still && visible && !userPaused && !raf) raf = requestAnimationFrame(frame); };
+    const play = () => { if (!still && visible && !raf) raf = requestAnimationFrame(frame); };
 
     layout();
     const ro = new ResizeObserver(() => layout());
@@ -167,12 +164,7 @@ export function SortField({ mode = "live", className = "", style }: { mode?: "li
     };
     const onScroll = () => { rectStale = true; };
     window.addEventListener("scroll", onScroll, { passive: true });
-    // The page's pause switch: stop the loop, keep the picture, and resume where it left off
-    const offPause = onPauseChange(() => {
-      const now = performance.now();
-      if (isPaused()) { userPaused = true; pausedAt = now; cancelAnimationFrame(raf); raf = 0; }
-      else { userPaused = false; start += now - pausedAt; play(); }
-    });
+
     const onLeave = () => { pointer.x = pointer.y = -9999; };
     window.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("pointerleave", onLeave);
@@ -180,7 +172,7 @@ export function SortField({ mode = "live", className = "", style }: { mode?: "li
 
     return () => {
       cancelAnimationFrame(raf);
-      offPause(); window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
       ro.disconnect(); io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pointermove", onMove);

@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { isPaused, onPauseChange } from "@/lib/motion-pause";
 import { gsap } from "gsap";
 import { FileText, Image, Music, Archive, FolderClosed, Check } from "lucide-react";
 
@@ -97,18 +96,13 @@ export function SortDemo() {
     };
     window.addEventListener("resize", onResize);
     // Don’t animate while it’s off screen
-    let inView = true;
-    const sync = () => tl.paused(!inView || isPaused());
-    const io = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; sync(); }, { threshold: 0.2 });
+    const io = new IntersectionObserver(([entry]) => tl.paused(!entry.isIntersecting), { threshold: 0.2 });
     io.observe(el);
-    const offPause = onPauseChange(sync);
-    sync();
 
     return () => {
       window.removeEventListener("resize", onResize);
       window.clearTimeout(t);
       io.disconnect();
-      offPause();
       tl.kill();
     };
   }, [reduced]);

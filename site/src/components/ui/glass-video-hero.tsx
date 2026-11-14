@@ -1,7 +1,6 @@
 import { DownloadLink, DeviceNote } from "@/components/download-link";
 import { SortDemo } from "@/components/sort-demo";
 import { SortField } from "@/components/sort-field";
-import { PauseMotion } from "@/components/pause-motion";
 
 /**
  * The hero: a ground that runs from dark (where the headline sits) to cream
@@ -53,7 +52,6 @@ const HeroSection = () => {
 
         <SortDemo />
       </div>
-      <PauseMotion className="absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-[max(1.5rem,env(safe-area-inset-left))] z-20" />
     </section>
   );
 };

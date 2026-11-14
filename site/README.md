@@ -25,7 +25,7 @@ The installer is not stored in git. `npm run fetch-dmg` downloads the latest rel
 ## Notes
 
 - Design: warm cream and burnt orange, set in Google Sans Flex and Google Sans Code.
-- Motion respects `prefers-reduced-motion`, and the looping background animation has a Pause button.
+- Motion respects `prefers-reduced-motion`: the looping background animation stops and everything rests.
 - The download button adapts to the visitor: Macs get the DMG; phones, tablets and PCs get an
   "Email this page" link instead.
 - Questions deep-link: `/#question-3` opens the third answer.
