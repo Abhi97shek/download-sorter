@@ -1,3 +1,7 @@
 build/
 dist/
 .DS_Store
+Icon/AppIcon.icns
+Icon/AppIcon.iconset/
+Icon/icon_1024.png
+website/

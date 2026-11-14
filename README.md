@@ -44,10 +44,11 @@ A tiny menu bar app for macOS that moves every new download into the right folde
 
 1. Download **`DownloadSorter.dmg`** from the [latest release](../../releases/latest).
 2. Open the DMG and drag **Download Sorter** into **Applications**.
-3. Open it. The first time, macOS will block it because the app isn't notarized:
-   **right-click the app → Open → Open**.
+3. Open it. The first time, macOS will say it can't verify the app, because it isn't notarized:
+   - **macOS 15 Sequoia or later:** double-click the app, click **Done** (not Move to Trash), then open **System Settings → Privacy & Security**, scroll to *Security* and click **Open Anyway**.
+   - **macOS 13–14:** right-click the app → **Open** → **Open**.
 4. When macOS asks for access to your Downloads folder, click **Allow**.
-5. Look for the 📥 icon in your menu bar. Done.
+5. Look for the tray-with-arrow icon in your menu bar. Done.
 
 > [!TIP]
 > Turn on **Launch at Login** from the menu bar icon so it's always working.
@@ -130,7 +131,7 @@ cd download-sorter
 <details>
 <summary><b>macOS says the app "can't be opened" or is from an unidentified developer</b></summary>
 
-The app isn't signed with a paid Apple Developer ID. Right-click the app, choose **Open**, then **Open** again. You only need to do this once.
+The app isn't signed with a paid Apple Developer ID. On macOS 15 or later use **System Settings → Privacy & Security → Open Anyway**; on macOS 13–14, right-click the app and choose **Open**. You only need to do this once.
 </details>
 
 <details>
