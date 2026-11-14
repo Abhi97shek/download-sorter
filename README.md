@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📥 Download Sorter
+# 📥 Sortly
 
 **Your Downloads folder, sorted automatically.**
 A tiny menu bar app for macOS that moves every new download into the right folder by file type — and asks you what to do when it meets a type it doesn't know.
@@ -43,7 +43,7 @@ A tiny menu bar app for macOS that moves every new download into the right folde
 ## 🚀 Install
 
 1. Download **`DownloadSorter.dmg`** from the [latest release](../../releases/latest).
-2. Open the DMG and drag **Download Sorter** into **Applications**.
+2. Open the DMG and drag **Sortly** into **Applications**.
 3. Open it. The first time, macOS will say it can't verify the app, because it isn't notarized:
    - **macOS 15 Sequoia or later:** double-click the app, click **Done** (not Move to Trash), then open **System Settings → Privacy & Security**, scroll to *Security* and click **Open Anyway**.
    - **macOS 13–14:** right-click the app → **Open** → **Open**.
@@ -110,8 +110,9 @@ You only need the Xcode Command Line Tools (`xcode-select --install`).
 ```bash
 git clone https://github.com/Abhi97shek/download-sorter.git
 cd download-sorter
-./build.sh          # creates build/Download Sorter.app
+./build.sh          # creates build/Sortly.app
 ./make-dmg.sh       # creates dist/DownloadSorter.dmg
+Tests/run.sh        # the small checks (build.sh runs them too)
 ```
 
 ## 📁 Project structure
@@ -137,7 +138,7 @@ The app isn't signed with a paid Apple Developer ID. On macOS 15 or later use **
 <details>
 <summary><b>Nothing is being moved</b></summary>
 
-Check that the menu bar icon doesn't say **Paused**, and that Download Sorter has access to your Downloads folder in **System Settings → Privacy & Security → Files and Folders**.
+Check that the menu bar icon doesn't say **Paused**, and that Sortly has access to your Downloads folder in **System Settings → Privacy & Security → Files and Folders**.
 </details>
 
 <details>
@@ -150,6 +151,12 @@ No. It has no network code. It only moves files inside your Downloads folder.
 <summary><b>Can I watch a different folder?</b></summary>
 
 Yes: <code>defaults write com.local.DownloadSorter watchFolder "/path/to/folder"</code>, then restart the app.
+</details>
+
+<details>
+<summary><b>Does it work with torrent clients?</b></summary>
+
+Not well. Don't point a torrent client at your Downloads folder: the app moves finished files, and the client may then report them missing and stop seeding.
 </details>
 
 <details>

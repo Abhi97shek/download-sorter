@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 /// Stores which file extension goes to which folder. Saved as JSON in
 /// ~/Library/Application Support/DownloadSorter/rules.json
@@ -32,20 +33,31 @@ final class RuleStore: ObservableObject {
         "Fonts": ["ttf", "otf", "woff", "woff2"],
     ]
 
-    init() {
-        let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("DownloadSorter", isDirectory: true)
-        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        fileURL = dir.appendingPathComponent("rules.json")
-
-        if let data = try? Data(contentsOf: fileURL),
-           let saved = try? JSONDecoder().decode(Saved.self, from: data) {
-            rules = saved.rules
-            ignored = Set(saved.ignored)
+    init(fileURL: URL? = nil) {
+        if let fileURL {
+            self.fileURL = fileURL
         } else {
-            var r: [String: String] = [:]
-            for (folder, exts) in RuleStore.defaults { for e in exts { r[e] = folder } }
-            rules = r
+            let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+                .appendingPathComponent("DownloadSorter", isDirectory: true)
+            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            self.fileURL = dir.appendingPathComponent("rules.json")
+        }
+
+        let defaults = Dictionary(uniqueKeysWithValues: RuleStore.defaults.flatMap { folder, exts in exts.map { ($0, folder) } })
+        if let data = try? Data(contentsOf: self.fileURL) {
+            if let saved = try? JSONDecoder().decode(Saved.self, from: data) {
+                // Folder names from disk get the same cleaning as typed ones
+                rules = saved.rules.compactMapValues { let n = cleanFolderName($0); return n.isEmpty ? nil : n }
+                ignored = Set(saved.ignored)
+            } else {
+                // Unreadable: keep a copy before the defaults overwrite it, so the user's rules are never lost silently
+                let backup = self.fileURL.appendingPathExtension("bak")
+                try? FileManager.default.removeItem(at: backup)
+                try? FileManager.default.copyItem(at: self.fileURL, to: backup)
+                rules = defaults
+            }
+        } else {
+            rules = defaults
         }
         loading = false
         save()
@@ -53,9 +65,14 @@ final class RuleStore: ObservableObject {
 
     func folder(for ext: String) -> String? { rules[ext.lowercased()] }
 
-    func setRule(ext: String, folder: String) {
-        rules[ext.lowercased()] = folder
+    /// Returns false, and changes nothing, when the folder name is empty once cleaned.
+    @discardableResult
+    func setRule(ext: String, folder: String) -> Bool {
+        let name = cleanFolderName(folder)
+        guard !name.isEmpty else { return false }
+        rules[ext.lowercased()] = name
         ignored.remove(ext.lowercased())
+        return true
     }
 
     func removeRule(ext: String) { rules.removeValue(forKey: ext) }

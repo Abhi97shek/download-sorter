@@ -33,8 +33,7 @@ struct RulesView: View {
                 Button("Add Rule") {
                     let e = form.newExt.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: CharacterSet(charactersIn: ".")).lowercased()
                     let f = form.newFolder.trimmingCharacters(in: .whitespaces)
-                    guard !e.isEmpty, !f.isEmpty else { return }
-                    store.setRule(ext: e, folder: f)
+                    guard !e.isEmpty, store.setRule(ext: e, folder: f) else { return }
                     form.newExt = ""; form.newFolder = ""
                 }
                 .keyboardShortcut(.defaultAction)

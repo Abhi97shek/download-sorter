@@ -3,7 +3,7 @@ import AppKit
 /// Watches the Downloads folder and moves finished downloads into folders by type.
 final class Sorter {
     let folder: URL
-    var paused = false
+    var paused = false { didSet { if !paused { lastStamp = nil } } }
     var onMove: ((String, String) -> Void)?   // (file name, folder name)
 
     private let store = RuleStore.shared
@@ -16,6 +16,12 @@ final class Sorter {
     /// extensions skipped "this time" — don't ask again until next launch
     private var skippedThisSession: Set<String> = []
     private var prompting = false
+    /// The folder's modified time at the last full scan. The folder is only re-read when it changes
+    /// (or while a file is still settling), so a huge Downloads folder costs nothing while idle.
+    private var lastStamp: Date?
+    /// True during "Sort Files Already in Folder Now": the type dialog offers to skip all the rest at once.
+    private var bulk = false
+    private var skipRest = false
 
     /// Extensions browsers use while a download is still in progress.
     private let partialExts: Set<String> = ["crdownload", "download", "part", "partial", "tmp", "opdownload", "temp"]
@@ -33,6 +39,7 @@ final class Sorter {
     func sortExistingNow() {
         baseline.removeAll()
         skippedThisSession.removeAll()
+        bulk = true; skipRest = false; lastStamp = nil
         for f in currentFiles() { watching[f.lastPathComponent] = (fileSize(f), 2) }
         scan()
     }
@@ -55,6 +62,9 @@ final class Sorter {
 
     private func scan() {
         guard !paused, !prompting else { return }
+        let stamp = try? folder.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+        if stamp != nil, stamp == lastStamp, watching.isEmpty { return }
+        lastStamp = stamp
         let files = currentFiles()
         let names = Set(files.map { $0.lastPathComponent })
         baseline = baseline.intersection(names)          // forget files that are gone
@@ -81,6 +91,13 @@ final class Sorter {
             handle(url)
             if prompting { return }
         }
+        if unknown.isEmpty { bulk = false }
+    }
+
+    /// Leave this file where it is, and stop watching it.
+    private func ignore(_ name: String) {
+        baseline.insert(name)
+        watching.removeValue(forKey: name)
     }
 
     // MARK: - Moving
@@ -88,7 +105,7 @@ final class Sorter {
     private func handle(_ url: URL) {
         let ext = url.pathExtension.lowercased()
         if store.ignored.contains(ext) || skippedThisSession.contains(ext) {
-            baseline.insert(url.lastPathComponent)   // leave it alone
+            ignore(url.lastPathComponent)
             return
         }
         if let target = store.folder(for: ext) {
@@ -102,33 +119,22 @@ final class Sorter {
         let destDir = folder.appendingPathComponent(folderName, isDirectory: true)
         do {
             try fm.createDirectory(at: destDir, withIntermediateDirectories: true)
-            let dest = uniqueDestination(for: url.lastPathComponent, in: destDir)
+            let dest = destDir.appendingPathComponent(uniqueFileName(url.lastPathComponent) {
+                fm.fileExists(atPath: destDir.appendingPathComponent($0).path)
+            })
             try fm.moveItem(at: url, to: dest)
             watching.removeValue(forKey: url.lastPathComponent)
             onMove?(dest.lastPathComponent, folderName)
         } catch {
             NSLog("DownloadSorter: could not move \(url.path): \(error)")
-            baseline.insert(url.lastPathComponent)   // don't retry forever
+            ignore(url.lastPathComponent)   // don't retry forever
         }
-    }
-
-    /// "file.pdf" -> "file (1).pdf" if a file with that name already exists.
-    private func uniqueDestination(for name: String, in dir: URL) -> URL {
-        var dest = dir.appendingPathComponent(name)
-        let base = (name as NSString).deletingPathExtension
-        let ext = (name as NSString).pathExtension
-        var n = 1
-        while fm.fileExists(atPath: dest.path) {
-            let candidate = ext.isEmpty ? "\(base) (\(n))" : "\(base) (\(n)).\(ext)"
-            dest = dir.appendingPathComponent(candidate)
-            n += 1
-        }
-        return dest
     }
 
     // MARK: - New file type dialog
 
     private func askAboutNewType(_ url: URL, ext: String) {
+        if skipRest { skippedThisSession.insert(ext); ignore(url.lastPathComponent); return }
         prompting = true
         defer { prompting = false }
 
@@ -139,6 +145,7 @@ final class Sorter {
         alert.addButton(withTitle: "Create Folder & Move")
         alert.addButton(withTitle: "Skip for Now")
         alert.addButton(withTitle: "Never Sort \(ext.isEmpty ? "These" : "." + ext)")
+        if bulk { alert.addButton(withTitle: "Skip the Rest") }
 
         let box = NSComboBox(frame: NSRect(x: 0, y: 0, width: 280, height: 26))
         box.addItems(withObjectValues: store.folderNames)
@@ -150,25 +157,24 @@ final class Sorter {
         NSApp.activate(ignoringOtherApps: true)
         let response = alert.runModal()
 
+        let skipAll = NSApplication.ModalResponse(rawValue: NSApplication.ModalResponse.alertFirstButtonReturn.rawValue + 3)
+        if bulk, response == skipAll {
+            skipRest = true; skippedThisSession.insert(ext); ignore(url.lastPathComponent)
+            return
+        }
+
         switch response {
         case .alertFirstButtonReturn:
-            let name = sanitize(box.stringValue)
+            let name = cleanFolderName(box.stringValue)
             guard !name.isEmpty else { skippedThisSession.insert(ext); return }
-            store.setRule(ext: ext, folder: name)
+            guard store.setRule(ext: ext, folder: name) else { skippedThisSession.insert(ext); return }
             if fm.fileExists(atPath: url.path) { move(url, to: name) }
         case .alertThirdButtonReturn:
             store.ignored.insert(ext)
-            baseline.insert(url.lastPathComponent)
+            ignore(url.lastPathComponent)
         default:
             skippedThisSession.insert(ext)
-            baseline.insert(url.lastPathComponent)
+            ignore(url.lastPathComponent)
         }
-    }
-
-    private func sanitize(_ s: String) -> String {
-        s.trimmingCharacters(in: .whitespacesAndNewlines)
-            .replacingOccurrences(of: "/", with: "-")
-            .replacingOccurrences(of: ":", with: "-")
-            .trimmingCharacters(in: CharacterSet(charactersIn: "."))
     }
 }

@@ -24,7 +24,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusItem.button?.image = NSImage(systemSymbolName: "tray.and.arrow.down.fill",
-                                           accessibilityDescription: "Download Sorter")
+                                           accessibilityDescription: "Sortly")
         let menu = NSMenu()
         menu.delegate = self
         statusItem.menu = menu
@@ -60,7 +60,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         login.state = SMAppService.mainApp.status == .enabled ? .on : .off
         menu.addItem(login)
         menu.addItem(.separator())
-        menu.addItem(item("Quit Download Sorter", #selector(quit), key: "q"))
+        menu.addItem(item("Quit Sortly", #selector(quit), key: "q"))
     }
 
     private func item(_ title: String, _ action: Selector, key: String = "") -> NSMenuItem {
@@ -81,7 +81,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         } catch {
             let a = NSAlert()
             a.messageText = "Couldn't change Launch at Login"
-            a.informativeText = "\(error.localizedDescription)\n\nTip: move Download Sorter into your Applications folder first."
+            a.informativeText = "\(error.localizedDescription)\n\nTip: move Sortly into your Applications folder first."
             a.runModal()
         }
     }
@@ -89,7 +89,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func showRules() {
         if rulesWindow == nil {
             let w = NSWindow(contentViewController: NSHostingController(rootView: RulesView()))
-            w.title = "Download Sorter — Rules"
+            w.title = "Sortly — Rules"
             w.setContentSize(NSSize(width: 520, height: 560))
             w.isReleasedWhenClosed = false
             w.center()
