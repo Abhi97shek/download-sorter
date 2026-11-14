@@ -20,7 +20,7 @@ const HeroSection = () => {
           className="inline-flex h-9 items-center gap-2.5 rounded-full border border-line bg-surface px-3.5 text-sm text-foreground backdrop-blur"
         >
           <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
-          Free and open source · Version 1.0 for Mac
+          Free · Version 1.0 for Mac
         </div>
 
         <h1

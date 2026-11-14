@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { flushSync } from "react-dom";
 import { FileQuestion, Plus } from "lucide-react";
 
-const REPO = "https://github.com/Abhi97shek/download-sorter";
 
 const QS: [string, string][] = [
   ["Is it really free?", "Yes. No ads, no accounts and no upgrade later."],
@@ -75,9 +74,6 @@ export function Faq() {
     <section id="faq" className="pad-x relative z-[2] mx-auto max-w-6xl py-24 lg:py-36">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <h2 className="text-[38px] leading-[1.04] tracking-[-0.035em] sm:text-5xl lg:text-[56px]">Questions</h2>
-        <p className="max-w-sm leading-relaxed text-muted-foreground sm:text-right">
-          Something else? <a className="text-foreground underline decoration-line-strong hover:decoration-accent" href={`${REPO}/issues`}>Ask on GitHub</a>.
-        </p>
       </div>
 
       {/* Desktop and tablet: a Finder window with a Quick Look pane */}

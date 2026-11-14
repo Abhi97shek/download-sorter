@@ -8,7 +8,6 @@ const links = [
   { href: "#how", label: "How it works" },
   { href: "#install", label: "Install" },
   { href: "#faq", label: "FAQ" },
-  { href: "https://github.com/Abhi97shek/download-sorter", label: "GitHub" },
 ];
 
 /** A floating pill: always dark, so it reads over the hero and over the cream page alike. */

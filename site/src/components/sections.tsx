@@ -1,6 +1,6 @@
 import {
   Download, FolderOpen, Hourglass, FolderPlus, Settings2, Lock, Pause, Sparkles, Rocket,
-  ChevronDown, Plus, CodeXml, ArrowUpRight, ShieldCheck, Check, FolderClosed,
+  ChevronDown, Plus, ShieldCheck, Check, FolderClosed,
 } from "lucide-react";
 import { DownloadLink, DeviceNote } from "@/components/download-link";
 import { AppLogo } from "@/components/app-logo";
@@ -10,7 +10,6 @@ import { useDevice } from "@/lib/device";
 import { FOLDER_COUNT, FOLDER_GROUPS } from "@/lib/folders";
 import type { ReactNode } from "react";
 
-const REPO = "https://github.com/Abhi97shek/download-sorter";
 
 // Section rhythm on a 144px beat; tight pairs sit closer, the install gets the most room.
 const PAD = { tight: "py-16 lg:py-24", default: "py-24 lg:py-36", loose: "py-28 lg:py-40" } as const;
@@ -307,7 +306,6 @@ export function Install() {
             <ul className="mt-6 space-y-2.5 border-t border-line pt-5 text-sm text-muted-foreground">
               <li className="flex gap-2"><Check size={16} className="mt-0.5 flex-none text-accent" aria-hidden="true" />macOS&nbsp;13 Ventura or later</li>
               <li className="flex gap-2"><Check size={16} className="mt-0.5 flex-none text-accent" aria-hidden="true" />Apple Silicon only (M1 or newer). Intel Macs aren’t supported yet.</li>
-              <li className="flex gap-2"><Check size={16} className="mt-0.5 flex-none text-accent" aria-hidden="true" />Open source (MIT). <a className="text-foreground underline decoration-line-strong underline-offset-4 hover:decoration-accent" href={REPO}>Read the code</a></li>
             </ul>
           </div>
         </div>
@@ -344,8 +342,6 @@ export function ClosingCta() {
     isMac
       ? { href: "/DownloadSorter.dmg", label: "Download", download: true }
       : { href: "#install", label: "How to install", download: false },
-    { href: REPO, label: "Source code", icon: CodeXml },
-    { href: `${REPO}/issues`, label: "Report a problem", icon: ArrowUpRight },
   ];
   return (
     <div className="on-dark grain relative overflow-hidden bg-background">
@@ -372,18 +368,17 @@ export function ClosingCta() {
             <AppLogo size={36} />
             <div>
               <p className="font-semibold"><Brand /></p>
-              <p className="text-sm text-muted-foreground">Version 1.0 · Free and open source (MIT)</p>
+              <p className="text-sm text-muted-foreground">Version 1.0 · Free</p>
             </div>
           </div>
           <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            {links.map(({ href, label, download, icon: Icon }) => (
+            {links.map(({ href, label, download }) => (
               <li key={label}>
                 <a
                   href={href}
                   {...(download ? { download: true } : {})}
                   className="inline-flex items-center gap-1.5 rounded-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  {Icon && <Icon size={14} aria-hidden="true" />}
                   {label}
                 </a>
               </li>
