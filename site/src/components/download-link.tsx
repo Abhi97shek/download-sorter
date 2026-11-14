@@ -54,7 +54,7 @@ export function DeviceNote({ className = "" }: { className?: string }) {
   }
   return (
     <p className={`${className} tabular-nums`}>
-      macOS 13+ · Apple Silicon (M1 or newer) · 694 KB · No account needed
+      macOS 13+ · Apple Silicon (M1 or newer) · {__DMG_SIZE__} · No account needed
     </p>
   );
 }

@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { DownloadNotice } from "@/components/download-notice";
 import { HowItWorks, NewTypeSection, Features, Folders, Install, ClosingCta } from "@/components/sections";
 import { Faq } from "@/components/faq";
+import { BeforeAfter } from "@/components/before-after";
 import { initAnimations } from "@/lib/animations";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
       <main>
         <HeroSection />
         <HowItWorks />
+        <BeforeAfter />
         <NewTypeSection />
         <Features />
         <Folders />

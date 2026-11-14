@@ -11,12 +11,10 @@
     "fetch-dmg": "curl -fL -o public/DownloadSorter.dmg https://github.com/Abhi97shek/download-sorter/releases/latest/download/DownloadSorter.dmg"
   },
   "dependencies": {
-    "clsx": "^2.1.1",
     "gsap": "^3.15.1",
     "lucide-react": "^1.72.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "tailwind-merge": "^3.7.0"
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",

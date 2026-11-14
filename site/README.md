@@ -1,6 +1,6 @@
-# Download Sorter website
+# Sortly website
 
-The marketing and download page for [Download Sorter](https://github.com/Abhi97shek/download-sorter),
+The marketing and download page for [Sortly](https://github.com/Abhi97shek/download-sorter),
 a free menu bar app that sorts your Downloads folder.
 
 React, TypeScript, Tailwind CSS 4 and GSAP, built with Vite.

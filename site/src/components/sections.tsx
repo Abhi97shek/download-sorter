@@ -7,6 +7,7 @@ import { AppLogo } from "@/components/app-logo";
 import { Brand } from "@/components/brand";
 import { SortField } from "@/components/sort-field";
 import { useDevice } from "@/lib/device";
+import { FOLDER_COUNT, FOLDER_GROUPS } from "@/lib/folders";
 import type { ReactNode } from "react";
 
 const REPO = "https://github.com/Abhi97shek/download-sorter";
@@ -202,45 +203,17 @@ export function Features() {
   );
 }
 
+const TONE_CLASS = {
+  media: { icon: "text-grp-media", dot: "bg-grp-media" },
+  docs: { icon: "text-grp-docs", dot: "bg-grp-docs" },
+  misc: { icon: "text-grp-misc", dot: "bg-grp-misc" },
+} as const;
+
 export function Folders() {
-  // Three groups, matching the three tabs on the app icon
-  const groups = [
-    {
-      name: "Media",
-      icon: "text-grp-media",
-      dot: "bg-grp-media",
-      folders: [
-        ["Images", "jpg, png, heic, gif, webp, svg…"],
-        ["Videos", "mp4, mov, mkv, webm…"],
-        ["Music", "mp3, wav, flac, m4a…"],
-      ],
-    },
-    {
-      name: "Documents",
-      icon: "text-grp-docs",
-      dot: "bg-grp-docs",
-      folders: [
-        ["PDFs", "pdf"],
-        ["Documents", "docx, txt, rtf, pages, md…"],
-        ["Spreadsheets", "xlsx, csv, numbers…"],
-        ["Presentations", "pptx, key"],
-      ],
-    },
-    {
-      name: "Everything else",
-      icon: "text-grp-misc",
-      dot: "bg-grp-misc",
-      folders: [
-        ["Archives", "zip, rar, 7z, tar, gz…"],
-        ["Installers", "dmg, pkg, iso"],
-        ["Code", "py, js, html, json, swift…"],
-        ["Fonts", "ttf, otf, woff, woff2"],
-      ],
-    },
-  ];
+  const groups = FOLDER_GROUPS.map((g) => ({ ...g, ...TONE_CLASS[g.tone] }));
   return (
     <Section pad="default" className="!pt-12 lg:!pt-16">
-      <H2 className="max-w-3xl">11 folders, ready on <em>day one.</em></H2>
+      <H2 className="max-w-3xl">{FOLDER_COUNT} folders, ready on <em>day one.</em></H2>
       <Lede>Created inside Downloads the first time a matching file arrives. Rename or reassign any of them.</Lede>
       <div className="mt-12 overflow-hidden rounded-2xl border border-line bg-surface">
         <div className="flex items-center gap-2 border-b border-line px-5 py-3 text-sm text-muted-foreground">
@@ -329,7 +302,7 @@ export function Install() {
           <div className="on-dark rounded-3xl bg-background p-7 text-foreground shadow-[0_30px_60px_-30px_rgba(26,14,8,0.55)]">
             <AppLogo size={44} />
             <p className="mt-5 text-xl font-semibold"><Brand />&nbsp;1.0</p>
-            <p className="mt-1 text-sm text-muted-foreground tabular-nums">Free · 694&nbsp;KB · No account needed</p>
+            <p className="mt-1 text-sm text-muted-foreground tabular-nums">Free · {__DMG_SIZE__} · No account needed</p>
             <DownloadLink className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-medium text-primary-foreground transition-[translate,scale] hover:-translate-y-px hover:brightness-95 active:scale-[0.97]" />
             <ul className="mt-6 space-y-2.5 border-t border-line pt-5 text-sm text-muted-foreground">
               <li className="flex gap-2"><Check size={16} className="mt-0.5 flex-none text-accent" aria-hidden="true" />macOS&nbsp;13 Ventura or later</li>
