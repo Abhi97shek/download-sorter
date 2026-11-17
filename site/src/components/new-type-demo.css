@@ -1,0 +1,7 @@
+.nt .ss-stage { overflow: hidden; background: var(--ss-well); border-radius: 24px; }
+.nt-alert { position: absolute; left: 50%; top: 28px; width: 340px; transform: translateX(-50%); display: flex; flex-direction: column; gap: 12px; text-align: center; align-items: stretch; }
+.nt-icon { align-self: center; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: var(--ss-accent); color: #fff; }
+.nt-title { font-size: 15px; font-weight: 600; text-align: center; }
+.nt-body { font-size: 12.5px; line-height: 1.5; color: var(--ss-text-2, #6b7280); white-space: normal; }
+.nt-more { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.nt-toast { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); white-space: nowrap; }

@@ -1,5 +1,5 @@
 import { DownloadLink, DeviceNote } from "@/components/download-link";
-import { SortDemo } from "@/components/sort-demo";
+import { FinderDemo } from "@/components/finder-demo";
 import { SortField } from "@/components/sort-field";
 
 /**
@@ -50,7 +50,10 @@ const HeroSection = () => {
 
         <DeviceNote className="mt-5 max-w-xl text-balance text-sm text-foreground" />
 
-        <SortDemo />
+        <div data-hero="demo" className="mx-auto mt-14 w-full max-w-[760px] text-left">
+          <p className="sr-only">Illustration: files in a Downloads window move one by one into Images, PDFs, Music and Archives folders.</p>
+          <FinderDemo />
+        </div>
       </div>
     </section>
   );

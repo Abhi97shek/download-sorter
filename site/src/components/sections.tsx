@@ -1,6 +1,7 @@
+import { NewTypeDemo } from "@/components/new-type-demo";
 import {
-  Download, FolderOpen, Hourglass, FolderPlus, Settings2, Lock, Pause, Sparkles, Rocket,
-  ChevronDown, Plus, ShieldCheck, Check, FolderClosed,
+  Download, FolderOpen, Hourglass, Settings2, Lock, Pause, Sparkles, Rocket,
+  Plus, ShieldCheck, Check, FolderClosed,
 } from "lucide-react";
 import { DownloadLink, DeviceNote } from "@/components/download-link";
 import { AppLogo } from "@/components/app-logo";
@@ -117,39 +118,8 @@ export function NewTypeSection() {
           </dl>
         </div>
 
-        <div
-          className="flex justify-center rounded-3xl border border-line bg-surface px-4 py-14"
-          role="img"
-          aria-label="Illustration of the window that asks where a new file type should go"
-        >
-          <div data-sketch="stage" className="flex flex-col items-center">
-            <div
-              data-float
-              className="on-light w-[300px] rounded-[14px] border border-line bg-background p-5 text-center text-foreground shadow-[0_30px_60px_-24px_rgba(0,0,0,0.7)]"
-            >
-              <div className="mx-auto mb-3 grid size-[52px] place-items-center rounded-xl bg-primary text-primary-foreground">
-                <FolderPlus size={26} aria-hidden="true" />
-              </div>
-              <p className="mb-2 text-sm font-semibold">New file type: .sketch</p>
-              <p className="mb-2 text-xs leading-relaxed text-muted-foreground">“design.sketch” was downloaded, and there is no folder for .sketch files yet.</p>
-              <p className="mb-3 text-xs leading-relaxed text-muted-foreground">Type a name for a new folder, or pick an existing one.</p>
-              <div className="mb-3 flex h-7 items-center justify-between rounded-md border border-accent bg-surface-raised px-2 text-left text-xs ring-3 ring-accent/25">
-                <span data-sketch="text" className="relative">
-                  SKETCH Files
-                  <span data-sketch="cover" aria-hidden="true" className="absolute -inset-x-px inset-y-0 origin-right scale-x-0 bg-surface-raised" />
-                </span>
-                <ChevronDown size={12} aria-hidden="true" className="text-muted-foreground" />
-              </div>
-              <div data-sketch="press" className="rounded-md bg-primary py-1.5 text-xs font-medium text-primary-foreground">Create Folder &amp; Move</div>
-              <div className="mt-1.5 rounded-md border border-line bg-surface-raised py-1.5 text-xs">Skip for Now</div>
-              <div className="mt-1.5 rounded-md border border-line bg-surface-raised py-1.5 text-xs">Never Sort .sketch</div>
-            </div>
-            {/* What the click does, shown outside the app window */}
-            <p data-sketch="done" className="mt-7 flex items-center gap-2 text-sm text-muted-foreground">
-              <Check size={15} strokeWidth={3} className="text-ok" aria-hidden="true" />
-              design.sketch moved to SKETCH Files
-            </p>
-          </div>
+        <div role="img" aria-label="Illustration of the window that asks where a new file type should go">
+          <NewTypeDemo />
         </div>
       </Section>
     </div>

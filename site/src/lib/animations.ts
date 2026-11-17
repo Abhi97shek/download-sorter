@@ -92,37 +92,6 @@ export function initAnimations(scope: HTMLElement): () => void {
       });
     }
 
-    // ---- The popup's drift runs only while it is on screen ----
-    gsap.utils.toArray<HTMLElement>(q("[data-float]")).forEach((el) => {
-      const drift = gsap.to(el, { y: -10, duration: 2.4, yoyo: true, repeat: -1, ease: "sine.inOut", paused: true });
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top bottom",
-        end: "bottom top",
-        onToggle: (self) => drift.paused(!self.isActive),
-      });
-    });
-
-    // ---- The authored moment: the new-file-type popup plays out as you reach it ----
-    // The product's one unusual behaviour: the popup arrives, the folder name is
-    // typed, the button is pressed, the file moves.
-    const stage = q("[data-sketch=stage]")[0];
-    if (stage) {
-      const press = q("[data-sketch=press]");
-      gsap
-        .timeline({
-          defaults: { ease: "expo.out" },
-          scrollTrigger: { trigger: stage, start: "top 70%", once: true },
-        })
-        .from(stage.firstElementChild, { opacity: 0, y: 28, scale: 0.96, duration: 0.8 })
-        // A cover the colour of the field slides away to the right, in steps: typing, with a transform
-        .fromTo(q("[data-sketch=cover]"), { scaleX: 1 }, { scaleX: 0, duration: 0.9, ease: "steps(12)" }, 0.7)
-        .to(press, { scale: 0.95, duration: 0.12, ease: "power2.in" }, 2.0)
-        .to(press, { scale: 1, duration: 0.45 }, 2.12)
-        .from(q("[data-sketch=done]"), { opacity: 0, y: 10, duration: 0.7 }, 2.25)
-        .from(q("[data-sketch=done] svg"), { scale: 0, duration: 0.6 }, 2.35);
-    }
-
     // ---- FAQ answers slide in when opened ----
     const details = q("details") as HTMLDetailsElement[];
     const onToggle = (e: Event) => {
