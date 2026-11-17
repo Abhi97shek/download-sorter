@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📥 Sortly
+# 📥 Hopper
 
 **Your Downloads folder, sorted automatically.**
 A tiny menu bar app for macOS that moves every new download into the right folder by file type — and asks you what to do when it meets a type it doesn't know.
@@ -43,7 +43,7 @@ A tiny menu bar app for macOS that moves every new download into the right folde
 ## 🚀 Install
 
 1. Download **`DownloadSorter.dmg`** from the [latest release](../../releases/latest).
-2. Open the DMG and drag **Sortly** into **Applications**.
+2. Open the DMG and drag **Hopper** into **Applications**.
 3. Open it. The first time, macOS will say it can't verify the app, because it isn't notarized:
    - **macOS 15 Sequoia or later:** double-click the app, click **Done** (not Move to Trash), then open **System Settings → Privacy & Security**, scroll to *Security* and click **Open Anyway**.
    - **macOS 13–14:** right-click the app → **Open** → **Open**.
@@ -110,7 +110,7 @@ You only need the Xcode Command Line Tools (`xcode-select --install`).
 ```bash
 git clone https://github.com/Abhi97shek/download-sorter.git
 cd download-sorter
-./build.sh          # creates build/Sortly.app
+./build.sh          # creates build/Hopper.app
 ./make-dmg.sh       # creates dist/DownloadSorter.dmg
 Tests/run.sh        # the small checks (build.sh runs them too)
 ```
@@ -138,7 +138,7 @@ The app isn't signed with a paid Apple Developer ID. On macOS 15 or later use **
 <details>
 <summary><b>Nothing is being moved</b></summary>
 
-Check that the menu bar icon doesn't say **Paused**, and that Sortly has access to your Downloads folder in **System Settings → Privacy & Security → Files and Folders**.
+Check that the menu bar icon doesn't say **Paused**, and that Hopper has access to your Downloads folder in **System Settings → Privacy & Security → Files and Folders**.
 </details>
 
 <details>

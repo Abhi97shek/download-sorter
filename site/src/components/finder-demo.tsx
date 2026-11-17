@@ -3,7 +3,7 @@ import { Check, Collapse, Count, Roll, Stage, Row, Text, Window, type Act } from
 import "./finder-demo.css";
 
 /**
- * Sortly at work, drawn with the Stageshow kit: files leave the Downloads list one
+ * Hopper at work, drawn with the Stageshow kit: files leave the Downloads list one
  * after another and the folder counts in the sidebar climb. Plays once when it scrolls into view.
  */
 const FILES = [
@@ -66,7 +66,7 @@ export function FinderDemo() {
             title="Downloads"
             toolbar={
               <span className="fd-status" data-done={left === 0 || undefined}>
-                <Roll variant="fade">{left === 0 ? "All sorted" : `${left} to sort`}</Roll>
+                <Roll variant="fade">{left === 0 ? "All in folders" : `${left} waiting`}</Roll>
               </span>
             }
             body={{ className: "fd-body", "data-crop": true }}
@@ -84,7 +84,7 @@ export function FinderDemo() {
               ))}
               <div className="fd-empty" data-show={left === 0 || undefined}>
                 <Check on={left === 0} />
-                <span>Nothing left to sort</span>
+                <span>Every file is in its folder</span>
               </div>
             </div>
           </Window>

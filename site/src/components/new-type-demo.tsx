@@ -3,7 +3,7 @@ import { Button, Card, Field, Stage, Text, Toast, type Act } from "@/stageshow/k
 import "./new-type-demo.css";
 
 /**
- * The popup Sortly shows for a file type it hasn't seen: a folder name is typed,
+ * The popup Hopper shows for a file type it hasn't seen: a folder name is typed,
  * Create Folder & Move is pressed, and a note confirms where the file went.
  * Plays once when it scrolls into view; reduced motion shows the finished state.
  */

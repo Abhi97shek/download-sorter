@@ -27,15 +27,15 @@ const HeroSection = () => {
           data-hero="title"
           className="mt-8 max-w-4xl text-[46px] leading-[1.02] tracking-[-0.04em] text-foreground sm:text-6xl lg:text-[84px]"
         >
-          Your Downloads folder,{" "}
+          Every download goes{" "}
           <br className="hidden lg:block" />
-          sorted by itself.
+          into the right folder.
         </h1>
 
         <p data-hero="sub" className="mt-7 max-w-[580px] text-lg leading-relaxed text-muted-foreground sm:text-[19px]">
-          A tiny menu bar app that moves every new download into the right
-          folder by file type. Meet a type it doesn’t know? It asks you to name
-          a folder, once.
+          A tiny menu bar app that looks at each new download’s file type and
+          puts it in a matching folder. Meet a type it doesn’t know? It asks you
+          to name a folder, once.
         </p>
 
         <div data-hero="cta" className="mt-9 flex flex-col items-center gap-3 sm:flex-row">

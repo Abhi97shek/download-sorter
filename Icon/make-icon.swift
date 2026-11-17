@@ -1,4 +1,4 @@
-// Draws the Sortly app icon (1024x1024 PNG).
+// Draws the Hopper app icon (1024x1024 PNG).
 // Usage: swift make-icon.swift <output.png>
 import AppKit
 

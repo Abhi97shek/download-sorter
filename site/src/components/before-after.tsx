@@ -107,7 +107,7 @@ export function BeforeAfter() {
             The same folder, <em>before and after.</em>
           </h2>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Drag the handle to compare an example Downloads folder without and with Sortly.
+            Drag the handle to compare an example Downloads folder without and with Hopper.
           </p>
         </div>
         <div role="group" aria-label="Jump to" className="flex w-fit rounded-full border border-line bg-surface p-1">
@@ -185,7 +185,7 @@ export function BeforeAfter() {
         </div>
       </div>
       <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-muted-foreground">
-        Drag the handle, or use the arrow keys. New downloads sort as they arrive; files already in Downloads sort with one click.
+        Drag the handle, or use the arrow keys. New downloads go into folders as they arrive; files already in Downloads move with one click.
       </p>
     </section>
   );

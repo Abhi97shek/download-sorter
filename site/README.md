@@ -1,6 +1,6 @@
-# Sortly website
+# Hopper website
 
-The marketing and download page for Sortly,
+The marketing and download page for Hopper,
 a free menu bar app that sorts your Downloads folder.
 
 React, TypeScript, Tailwind CSS 4 and GSAP, built with Vite.

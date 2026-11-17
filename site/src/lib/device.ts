@@ -41,7 +41,7 @@ export function useDevice(): Device {
 /** A link that opens the visitor's email app with this page's address, to open on a Mac later. */
 export function sendToMacHref(): string {
   const url = typeof location !== "undefined" ? location.origin : "";
-  const subject = encodeURIComponent("Sortly for Mac");
-  const body = encodeURIComponent(`Open this on your Mac to download Sortly:\n${url}`);
+  const subject = encodeURIComponent("Hopper for Mac");
+  const body = encodeURIComponent(`Open this on your Mac to download Hopper:\n${url}`);
   return `mailto:?subject=${subject}&body=${body}`;
 }

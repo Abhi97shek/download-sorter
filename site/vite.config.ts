@@ -9,11 +9,11 @@ import faq from "./src/lib/faq.json" with { type: "json" };
 const dmg = path.resolve(import.meta.dirname, "public/DownloadSorter.dmg");
 const dmgSize = fs.existsSync(dmg) ? `${Math.round(fs.statSync(dmg).size / 1024)}\u00a0KB` : "under 1\u00a0MB";
 
-const TITLE = "Sortly — free Mac app that sorts your Downloads folder";
-const DESC = "Sortly is a free menu bar app for Mac. It moves every new download into the right folder by file type, and asks you to name a folder when it sees a new type.";
+const TITLE = "Hopper — free Mac app that puts your downloads in the right folders";
+const DESC = "Hopper is a free menu bar app for Mac. It moves every new download into the right folder by file type, and asks you to name a folder when it sees a new type.";
 
 /**
- * Search and AI-answer metadata. Set SITE_URL (e.g. https://sortly.pages.dev) when building;
+ * Search and AI-answer metadata. Set SITE_URL (e.g. https://hopper.pages.dev) when building;
  * without it the absolute-URL tags (canonical, social image, sitemap) are left out rather than guessed.
  */
 function seo(): Plugin {
@@ -22,7 +22,7 @@ function seo(): Plugin {
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: "Sortly",
+      name: "Hopper",
       description: DESC,
       applicationCategory: "UtilitiesApplication",
       operatingSystem: "macOS 13 or later, Apple Silicon",
@@ -38,7 +38,7 @@ function seo(): Plugin {
   const tags = [
     { tag: "meta", attrs: { name: "robots", content: "index, follow, max-image-preview:large" }, injectTo: "head" as const },
     { tag: "meta", attrs: { property: "og:type", content: "website" }, injectTo: "head" as const },
-    { tag: "meta", attrs: { property: "og:site_name", content: "Sortly" }, injectTo: "head" as const },
+    { tag: "meta", attrs: { property: "og:site_name", content: "Hopper" }, injectTo: "head" as const },
     { tag: "meta", attrs: { property: "og:title", content: TITLE }, injectTo: "head" as const },
     { tag: "meta", attrs: { property: "og:description", content: DESC }, injectTo: "head" as const },
     { tag: "meta", attrs: { name: "twitter:card", content: "summary" }, injectTo: "head" as const },
@@ -61,7 +61,7 @@ function seo(): Plugin {
       // llms.txt: a plain summary for AI assistants
       emit(
         "llms.txt",
-        `# Sortly\n\n> ${DESC}\n\nSortly is free, runs on macOS 13 or later on Apple Silicon (M1 or newer), has no network code and needs no account.\n\n## Questions\n\n${faq.map(([q, a]) => `- ${q} ${a}`).join("\n")}\n`,
+        `# Hopper\n\n> ${DESC}\n\nHopper is free, runs on macOS 13 or later on Apple Silicon (M1 or newer), has no network code and needs no account.\n\n## Questions\n\n${faq.map(([q, a]) => `- ${q} ${a}`).join("\n")}\n`,
       );
     },
   };

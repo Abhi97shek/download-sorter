@@ -131,7 +131,7 @@ export function Features() {
     {
       icon: FolderOpen,
       title: "Clean up old files",
-      text: "Years of downloads piled up? One click sorts everything already sitting in your Downloads folder.",
+      text: "Years of downloads piled up? One click puts everything already sitting in your Downloads folder into folders.",
     },
     {
       icon: Lock,
@@ -142,7 +142,7 @@ export function Features() {
   const more = [
     { icon: Sparkles, title: "Light and quiet", text: "Lives in your menu bar. No Dock icon." },
     { icon: Settings2, title: "Your rules", text: "Add, change or remove any file type." },
-    { icon: Pause, title: "Pause any time", text: "Switch sorting off from the menu bar." },
+    { icon: Pause, title: "Pause any time", text: "Switch it off from the menu bar." },
     { icon: Rocket, title: "Starts with your Mac", text: "Turn on Launch at Login and forget it." },
   ];
   return (
@@ -315,7 +315,7 @@ export function ClosingCta() {
   ];
   return (
     <div className="on-dark grain relative overflow-hidden bg-background">
-      {/* The page ends where the hero began: the same file grid, now sorted */}
+      {/* The page ends where the hero began: the same file grid, now in folders */}
       <SortField mode="sorted" className="field-close z-0" />
       <Section pad="default" className="text-center">
         <div data-closing className="group/logo mx-auto w-fit">
